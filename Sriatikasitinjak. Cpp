@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+struct Barang {
+    string nama;
+    double harga;
+    int jumlah;
+    double totalPendapatan() const {
+        return harga * jumlah;
+    }
+};
+
+void tampilkanLaporan(const vector<Barang>& daftarBarang) {
+    cout << setw(5) << "No" << setw(15) << "Nama Barang" 
+         << setw(15) << "Harga Per Barang" << setw(15) << "Jumlah Terjual" 
+         << setw(20) << "Total Pendapatan" << endl;
+    cout << "-------------------------------------------------------------" << endl;
+
+    double totalSemua = 0;
+    for (int i = 0; i < daftarBarang.size(); ++i) {
+        const Barang& barang = daftarBarang[i];
+        cout << setw(5) << i+1 << setw(15) << barang.nama 
+             << setw(15) << barang.harga << setw(15) << barang.jumlah 
+             << setw(20) << barang.totalPendapatan() << endl;
+        totalSemua += barang.totalPendapatan();
+    }
+    cout << "-------------------------------------------------------------" << endl;
+    cout << "Total Pendapatan: " << totalSemua << endl;
+}
+
+int main() {
+    vector<Barang> daftarBarang;
+    char tambahData;
+
+    do {
+        Barang barang;
+        cout << "Masukkan nama barang: ";
+        cin >> barang.nama;
+        cout << "Masukkan harga per barang: ";
+        cin >> barang.harga;
+        cout << "Masukkan jumlah barang terjual: ";
+        cin >> barang.jumlah;
+
+        daftarBarang.push_back(barang);
+
+        cout << "Apakah ingin memasukkan data penjualan lagi? (y/n): ";
+        cin >> tambahData;
+    } while (tambahData == 'y' || tambahData == 'Y');
+
+    tampilkanLaporan(daftarBarang);
+
+    return 0;
+}
